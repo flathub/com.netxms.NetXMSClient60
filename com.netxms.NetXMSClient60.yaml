@@ -1,0 +1,49 @@
+app-id: com.netxms.NetXMSClient60
+runtime: org.freedesktop.Sdk
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.openjdk17
+command: netxms-client.sh
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --share=network
+  - --persist=.nxmc4
+  - --persist=.swt
+modules:
+  - name: openjdk-17
+    buildsystem: simple
+    build-commands:
+      - /usr/lib/sdk/openjdk17/install.sh
+  - name: netxms-client
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 netxms-client.sh /app/bin/netxms-client.sh
+      - install -Dm644 nxmc.jar /app/bin/nxmc.jar
+      - install -T -Dm644 netxms.svg /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+      - install -t /app/share/applications/ -Dm644 ${FLATPAK_ID}.desktop
+      - install -t /app/share/metainfo/ -Dm644 ${FLATPAK_ID}.metainfo.xml
+    sources:
+      - type: file
+        url: https://netxms.org/download/releases/6.0/nxmc-6.0.0-standalone.jar
+        sha256: 60429952e39192db5da55beb51db6a9ad1e9dc45aea119edaa82c5258504cd7f
+        dest-filename: nxmc.jar
+        x-checker-data:
+          type: html
+          url: https://netxms.com/downloads/
+          version-pattern: "NetXMS Version [0-9.]+"
+          url-template: >-
+            https://netxms.com/download/releases/$major.$minor/nxmc-$version-standalone.jar
+      - type: file
+        path: netxms-client.sh
+      - type: file
+        url: https://raw.githubusercontent.com/netxms/appstream/7883155a9c4acb91442877f92510d74957ea4550/6.0/com.netxms.NetXMSClient60.desktop
+        sha256: 5b244f97c7c913bb879c532aa33ed2e57b8b4097480d35fa6da6e9615d079e07
+      - type: file
+        url: https://raw.githubusercontent.com/netxms/appstream/7883155a9c4acb91442877f92510d74957ea4550/6.0/com.netxms.NetXMSClient60.metainfo.xml
+        sha256: edcdf06cbe9e8cce7531fa8fe54f9e1bf6b7fe14eb8a2a9471f89b34a7158db3
+      - type: file
+        url: https://raw.githubusercontent.com/netxms/appstream/7883155a9c4acb91442877f92510d74957ea4550/6.0/netxms-icon.svg
+        sha256: 2be6744ec2dfad5dbfd76c66eb161136bb7294736ebb053dc8f901881c5409bc
+        dest-filename: netxms.svg
