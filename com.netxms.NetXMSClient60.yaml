@@ -27,7 +27,7 @@ modules:
     sources:
       - type: file
         url: https://netxms.org/download/releases/6.0/nxmc-6.0.2-standalone.jar
-        sha256: 6d705785621eab0915c80f97eb5e237e38507cb813bd52737f723011e80abc26
+        sha256: 598c6cbf9650d3780266a5a524264f05abf223febcdc0bdd16bf4701b15233d7
         dest-filename: nxmc.jar
         x-checker-data:
           type: html
